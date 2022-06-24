@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './styles/index.scss';
+import 'rsuite/dist/rsuite.min.css';
 
-function App() {
+import { useEffect, useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+} from 'react-router-dom';
+import { QueryClientProvider, QueryClient } from 'react-query';
+
+import IndexPage from './pages/Index';
+import DetailPage from './pages/Detail';
+import AuthPage from './pages/Auth';
+
+const queryClient = new QueryClient();
+
+const USER = 'user';
+
+function Index() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<IndexPage />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/detail/:name" element={<DetailPage />} />
+        </Routes>
+      </Router>
+    </QueryClientProvider>
   );
 }
 
-export default App;
+export default Index;
